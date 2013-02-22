@@ -43,7 +43,7 @@
             this.ipAdress.Name = "ipAdress";
             this.ipAdress.Size = new System.Drawing.Size(147, 20);
             this.ipAdress.TabIndex = 0;
-            this.ipAdress.Text = "173.199.110.11";
+            this.ipAdress.Text = "Ip Adress";
             // 
             // passWord
             // 
@@ -51,7 +51,7 @@
             this.passWord.Name = "passWord";
             this.passWord.Size = new System.Drawing.Size(74, 20);
             this.passWord.TabIndex = 2;
-            this.passWord.Text = "895249";
+            this.passWord.Text = "Password";
             // 
             // portNum
             // 
@@ -59,7 +59,7 @@
             this.portNum.Name = "portNum";
             this.portNum.Size = new System.Drawing.Size(86, 20);
             this.portNum.TabIndex = 1;
-            this.portNum.Text = "64098";
+            this.portNum.Text = "Port";
             // 
             // connect
             // 
