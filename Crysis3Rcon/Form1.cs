@@ -36,7 +36,6 @@ namespace Crysis3Rcon
             {
                 console.Text = "Connected to " + ipAdress.Text;
             }
-            console.AppendText(css.GetCurrentMap());
         }
 
         private void execute_Click(object sender, EventArgs e)
@@ -44,6 +43,33 @@ namespace Crysis3Rcon
             console.Text += "\r\n" + css.ExecuteCommand(command.Text);
             console.SelectionStart = console.Text.Length;
             console.ScrollToCaret();
+        }
+
+        private void statusButton_Click(object sender, EventArgs e)
+        {
+            List<Player> playerList = css.GetPlayers();
+            playerBox.Items.Clear();
+            foreach (Player player in playerList)
+            {
+                playerBox.Items.Add(player);
+            }
+        }
+
+        private void playerBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kickButton_Click(object sender, EventArgs e)
+        {
+            Player kickPlayer = (Player) playerBox.SelectedItem;
+            css.ExecuteCommand("kick " + kickPlayer.Name);
+        }
+
+        private void banButton_Click(object sender, EventArgs e)
+        {
+            Player banPlayer = (Player)playerBox.SelectedItem;
+            css.ExecuteCommand("ban " + banPlayer.Name);
         }
     }
 }

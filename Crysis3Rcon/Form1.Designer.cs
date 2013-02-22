@@ -35,6 +35,10 @@
             this.console = new System.Windows.Forms.TextBox();
             this.command = new System.Windows.Forms.TextBox();
             this.execute = new System.Windows.Forms.Button();
+            this.statusButton = new System.Windows.Forms.Button();
+            this.playerBox = new System.Windows.Forms.ListBox();
+            this.kickButton = new System.Windows.Forms.Button();
+            this.banButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ipAdress
@@ -76,7 +80,7 @@
             this.console.Location = new System.Drawing.Point(45, 79);
             this.console.Multiline = true;
             this.console.Name = "console";
-            this.console.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.console.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.console.Size = new System.Drawing.Size(412, 263);
             this.console.TabIndex = 4;
             // 
@@ -97,11 +101,58 @@
             this.execute.UseVisualStyleBackColor = true;
             this.execute.Click += new System.EventHandler(this.execute_Click);
             // 
+            // statusButton
+            // 
+            this.statusButton.Location = new System.Drawing.Point(480, 12);
+            this.statusButton.Name = "statusButton";
+            this.statusButton.Size = new System.Drawing.Size(178, 61);
+            this.statusButton.TabIndex = 7;
+            this.statusButton.Text = "Refresh";
+            this.statusButton.UseVisualStyleBackColor = true;
+            this.statusButton.Click += new System.EventHandler(this.statusButton_Click);
+            // 
+            // playerBox
+            // 
+            this.playerBox.FormattingEnabled = true;
+            this.playerBox.Items.AddRange(new object[] {
+            "Name",
+            "Ping"});
+            this.playerBox.Location = new System.Drawing.Point(480, 79);
+            this.playerBox.Name = "playerBox";
+            this.playerBox.Size = new System.Drawing.Size(178, 264);
+            this.playerBox.TabIndex = 8;
+            this.playerBox.SelectedIndexChanged += new System.EventHandler(this.playerBox_SelectedIndexChanged);
+            // 
+            // kickButton
+            // 
+            this.kickButton.Location = new System.Drawing.Point(681, 79);
+            this.kickButton.Name = "kickButton";
+            this.kickButton.Size = new System.Drawing.Size(75, 23);
+            this.kickButton.TabIndex = 9;
+            this.kickButton.Text = "Kick";
+            this.kickButton.UseCompatibleTextRendering = true;
+            this.kickButton.UseVisualStyleBackColor = true;
+            this.kickButton.Click += new System.EventHandler(this.kickButton_Click);
+            // 
+            // banButton
+            // 
+            this.banButton.Location = new System.Drawing.Point(681, 124);
+            this.banButton.Name = "banButton";
+            this.banButton.Size = new System.Drawing.Size(75, 23);
+            this.banButton.TabIndex = 10;
+            this.banButton.Text = "Ban";
+            this.banButton.UseVisualStyleBackColor = true;
+            this.banButton.Click += new System.EventHandler(this.banButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(517, 369);
+            this.ClientSize = new System.Drawing.Size(779, 369);
+            this.Controls.Add(this.banButton);
+            this.Controls.Add(this.kickButton);
+            this.Controls.Add(this.playerBox);
+            this.Controls.Add(this.statusButton);
             this.Controls.Add(this.execute);
             this.Controls.Add(this.command);
             this.Controls.Add(this.console);
@@ -125,6 +176,10 @@
         private System.Windows.Forms.TextBox console;
         private System.Windows.Forms.TextBox command;
         private System.Windows.Forms.Button execute;
+        private System.Windows.Forms.Button statusButton;
+        private System.Windows.Forms.ListBox playerBox;
+        private System.Windows.Forms.Button kickButton;
+        private System.Windows.Forms.Button banButton;
     }
 }
 

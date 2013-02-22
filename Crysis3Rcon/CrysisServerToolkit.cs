@@ -994,6 +994,10 @@ namespace Org.JZhao.Crysis.ServerToolkit
         public Player()
         {
         }
+        public override string ToString()
+        {
+            return this.Name;
+        }
         public static Player Build(string playerString)
         {
             Player player = new Player();
@@ -1001,6 +1005,13 @@ namespace Org.JZhao.Crysis.ServerToolkit
                 throw new ArgumentException("playerString is null or blank");
             string[] kvs = playerString.Split(new char[] { ' ', ':' },
                 StringSplitOptions.RemoveEmptyEntries);
+            //This may be needed in the future to create a proper player object
+            /**
+            foreach (string kv in kvs)
+            {
+                Console.WriteLine(kv);
+            }**/
+            //return null;
             //if the player is still connecting
             if (kvs[1].Trim() == "id")
             {
@@ -1013,10 +1024,10 @@ namespace Org.JZhao.Crysis.ServerToolkit
                 player.State = PlayerConnectionState.Connected;
                 player.Name = kvs[1].Trim();
                 player.ID = int.Parse(kvs[3]);
-                player.IP = kvs[5];
-                player.Port = int.Parse(kvs[6]);
-                player.Ping = int.Parse(kvs[8]);
-                player.Profile = kvs[12].Trim();
+                player.IP = "0.0.0.0";
+                player.Port = 0;
+                player.Ping = int.Parse(kvs[7]);
+                player.Profile = kvs[11].Trim();
                 return player;
             }
         }
