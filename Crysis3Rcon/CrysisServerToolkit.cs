@@ -743,7 +743,12 @@ namespace Org.JZhao.Crysis.ServerToolkit
             }
             else
             {
-                return null;
+                string message ="";
+                foreach (string line in lines)
+                {
+                    message += line;
+                }
+                return message;
             }
         }
         public void SetCurrentMap(string value)
