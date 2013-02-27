@@ -13,6 +13,9 @@ namespace Org.JZhao.Crysis.ServerToolkit
 {
     public class CrysisServerSession
     {
+        //TODO: Port all functions to crysis 3 equivalents
+        //TODO: Remove every trace of async functionality
+
         #region Private Fields
         private string ip;
         private int port;

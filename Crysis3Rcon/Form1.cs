@@ -18,6 +18,9 @@ namespace Crysis3Rcon
         CrysisServerSession css;
         System.Timers.Timer timer;
 
+        /// <summary>
+        /// Form 1 constructor, creates the timer for the refreshing of the server status
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
@@ -26,13 +29,24 @@ namespace Crysis3Rcon
             timer.Elapsed += new ElapsedEventHandler(refreshPlayerTimer);
         }
 
+        /// <summary>
+        /// Handles the player refresh event
+        /// </summary>
+        /// <param name="sender">The event-raiser</param>
+        /// <param name="e">Event arguments raised by the timer 'timer'</param>
         private void refreshPlayerTimer(object sender, EventArgs e)
         {
             repopulatePlayerBox();
         }
 
+        /// <summary>
+        /// Handles the connecting to the server when a player clicks a button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void connect_Click(object sender, EventArgs e)
         {
+            //Input validation is done here
             int parsedPort;
             bool validPort = int.TryParse(portNum.Text, out parsedPort);
             IPAddress[] addres;
@@ -53,6 +67,7 @@ namespace Crysis3Rcon
                 return;
             }
 
+            //Actual connecting is done here
             css = new CrysisServerSession(addres[0].ToString(), parsedPort, passWord.Text, false);
             
             if (css.TestConnection() == false)
@@ -69,6 +84,12 @@ namespace Crysis3Rcon
             }
         }
 
+        /// <summary>
+        /// Grabs the input of the command textbox, executes that command on the server,
+        /// Then appends the serverreply to the console textbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void execute_Click(object sender, EventArgs e)
         {
             if (css != null)
@@ -79,11 +100,20 @@ namespace Crysis3Rcon
             }
         }
 
+        /// <summary>
+        /// Refreshes the playerlist on request
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void statusButton_Click(object sender, EventArgs e)
         {
             repopulatePlayerBox();
         }
 
+        /// <summary>
+        /// Repopulates the playerlist,
+        /// Grabs a list of players from the server and adds them to the player listbox
+        /// </summary>
         private void repopulatePlayerBox()
         {
             if (css != null)
@@ -99,6 +129,13 @@ namespace Crysis3Rcon
             }
         }
 
+        /// <summary>
+        /// Handles the kicking of a player,
+        /// Sends a kick 'playername' command to the server,
+        /// Playername is retrieved from the selected item in the player listbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void kickButton_Click(object sender, EventArgs e)
         {
             if (css != null)
@@ -108,6 +145,13 @@ namespace Crysis3Rcon
             }
         }
 
+        /// <summary>
+        /// Handles the banning of a player,
+        /// Sends a ban 'playername' command to the server,
+        /// Playername is retrieved from the selected item in the player listbox
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void banButton_Click(object sender, EventArgs e)
         {
             if (css != null)
@@ -117,6 +161,12 @@ namespace Crysis3Rcon
             }
         }
 
+        /// <summary>
+        /// When form1 loads, the server address textbox, port textbox, and password textbox are
+        /// filled with the saved settings
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
             ipAdress.Text = Properties.Settings.Default.Server;
@@ -124,6 +174,11 @@ namespace Crysis3Rcon
             passWord.Text = Properties.Settings.Default.Password;
         }
 
+        /// <summary>
+        /// The current servername, port and password are saved to make persistent settings possible
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Properties.Settings.Default.Server = ipAdress.Text;
