@@ -168,6 +168,7 @@ namespace Org.JZhao.Crysis.ServerToolkit
                     tcpClient.Close();
                 }
                 tcpClient = new TcpClient(ip, port);
+                tcpClient.ReceiveTimeout = 3000;
                 isAuthenticated = CrysisServerUtils.Authenticate(tcpClient, password);
                 if (isAuthenticated)
                 {
@@ -198,7 +199,9 @@ namespace Org.JZhao.Crysis.ServerToolkit
             else if (cacheConnection == false)
             {
                 tcpClient = new TcpClient(ip, port);
+                tcpClient.ReceiveTimeout = 3000;
                 isAuthenticated = CrysisServerUtils.Authenticate(tcpClient, password);
+               
             }
             if (isAuthenticated)
             {
