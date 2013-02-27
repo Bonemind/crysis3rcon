@@ -28,8 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.passWord = new System.Windows.Forms.TextBox();
-            this.portNum = new System.Windows.Forms.TextBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.connect = new System.Windows.Forms.Button();
             this.console = new System.Windows.Forms.TextBox();
             this.command = new System.Windows.Forms.TextBox();
@@ -38,26 +37,11 @@
             this.playerBox = new System.Windows.Forms.ListBox();
             this.kickButton = new System.Windows.Forms.Button();
             this.banButton = new System.Windows.Forms.Button();
+            this.portNum = new System.Windows.Forms.TextBox();
+            this.passWord = new System.Windows.Forms.TextBox();
             this.ipAdress = new System.Windows.Forms.TextBox();
+            this.playerCount = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // passWord
-            // 
-            this.passWord.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Crysis3Rcon.Properties.Settings.Default, "Password", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.passWord.Location = new System.Drawing.Point(290, 12);
-            this.passWord.Name = "passWord";
-            this.passWord.Size = new System.Drawing.Size(74, 20);
-            this.passWord.TabIndex = 2;
-            this.passWord.Text = global::Crysis3Rcon.Properties.Settings.Default.Password;
-            // 
-            // portNum
-            // 
-            this.portNum.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Crysis3Rcon.Properties.Settings.Default, "Port", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.portNum.Location = new System.Drawing.Point(198, 12);
-            this.portNum.Name = "portNum";
-            this.portNum.Size = new System.Drawing.Size(86, 20);
-            this.portNum.TabIndex = 1;
-            this.portNum.Text = global::Crysis3Rcon.Properties.Settings.Default.Port;
             // 
             // connect
             // 
@@ -99,7 +83,7 @@
             // 
             this.statusButton.Location = new System.Drawing.Point(480, 12);
             this.statusButton.Name = "statusButton";
-            this.statusButton.Size = new System.Drawing.Size(178, 61);
+            this.statusButton.Size = new System.Drawing.Size(178, 24);
             this.statusButton.TabIndex = 7;
             this.statusButton.Text = "Refresh";
             this.statusButton.UseVisualStyleBackColor = true;
@@ -137,6 +121,24 @@
             this.banButton.UseVisualStyleBackColor = true;
             this.banButton.Click += new System.EventHandler(this.banButton_Click);
             // 
+            // portNum
+            // 
+            this.portNum.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Crysis3Rcon.Properties.Settings.Default, "Port", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.portNum.Location = new System.Drawing.Point(198, 12);
+            this.portNum.Name = "portNum";
+            this.portNum.Size = new System.Drawing.Size(86, 20);
+            this.portNum.TabIndex = 1;
+            this.portNum.Text = global::Crysis3Rcon.Properties.Settings.Default.Port;
+            // 
+            // passWord
+            // 
+            this.passWord.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Crysis3Rcon.Properties.Settings.Default, "Password", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.passWord.Location = new System.Drawing.Point(290, 12);
+            this.passWord.Name = "passWord";
+            this.passWord.Size = new System.Drawing.Size(74, 20);
+            this.passWord.TabIndex = 2;
+            this.passWord.Text = global::Crysis3Rcon.Properties.Settings.Default.Password;
+            // 
             // ipAdress
             // 
             this.ipAdress.DataBindings.Add(new System.Windows.Forms.Binding("Text", global::Crysis3Rcon.Properties.Settings.Default, "Server", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
@@ -146,11 +148,21 @@
             this.ipAdress.TabIndex = 0;
             this.ipAdress.Text = global::Crysis3Rcon.Properties.Settings.Default.Server;
             // 
+            // playerCount
+            // 
+            this.playerCount.AutoSize = true;
+            this.playerCount.Location = new System.Drawing.Point(596, 55);
+            this.playerCount.Name = "playerCount";
+            this.playerCount.Size = new System.Drawing.Size(53, 13);
+            this.playerCount.TabIndex = 11;
+            this.playerCount.Text = "Players: 0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(779, 369);
+            this.Controls.Add(this.playerCount);
             this.Controls.Add(this.banButton);
             this.Controls.Add(this.kickButton);
             this.Controls.Add(this.playerBox);
@@ -162,6 +174,7 @@
             this.Controls.Add(this.portNum);
             this.Controls.Add(this.passWord);
             this.Controls.Add(this.ipAdress);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Crysis 3 RCON";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -184,6 +197,7 @@
         private System.Windows.Forms.ListBox playerBox;
         private System.Windows.Forms.Button kickButton;
         private System.Windows.Forms.Button banButton;
+        private System.Windows.Forms.Label playerCount;
     }
 }
 

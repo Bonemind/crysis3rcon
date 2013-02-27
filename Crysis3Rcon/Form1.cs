@@ -95,6 +95,7 @@ namespace Crysis3Rcon
                     playerBox.Items.Add(player);
                 }
                 console.AppendText("\r\nPlayerlist refreshed\r\n");
+                playerCount.Text = "Players: " + playerList.Count;
             }
         }
 
