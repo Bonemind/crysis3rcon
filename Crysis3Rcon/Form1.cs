@@ -48,11 +48,11 @@ namespace Crysis3Rcon
         {
             //Input validation is done here
             int parsedPort;
-            bool validPort = int.TryParse(portNum.Text, out parsedPort);
+            bool validPort = int.TryParse(portNum.Text.Trim(), out parsedPort);
             IPAddress[] addres;
             try
             {
-                addres = Dns.GetHostAddresses(ipAdress.Text);
+                addres = Dns.GetHostAddresses(ipAdress.Text.Trim());
             }
             catch (Exception ex)
             {
@@ -68,7 +68,7 @@ namespace Crysis3Rcon
             }
 
             //Actual connecting is done here
-            css = new CrysisServerSession(addres[0].ToString(), parsedPort, passWord.Text, false);
+            css = new CrysisServerSession(addres[0].ToString(), parsedPort, passWord.Text.Trim(), false);
             
             if (css.TestConnection() == false)
             {
@@ -171,6 +171,7 @@ namespace Crysis3Rcon
             ipAdress.Text = Properties.Settings.Default.Server;
             portNum.Text = Properties.Settings.Default.Port;
             passWord.Text = Properties.Settings.Default.Password;
+           
         }
 
         /// <summary>
