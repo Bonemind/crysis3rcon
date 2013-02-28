@@ -223,68 +223,18 @@ namespace Org.JZhao.Crysis.ServerToolkit
             }
 
         }
-        /// <summary>
-        /// Async version of ExecuteCommand. 
-        /// Executes a command on the server and return an unformatted response
-        /// This method is synchronized to prevent multiple thread accessing it at same time
-        /// </summary>
-        /// <param name="command">The command to execute</param>
-        /// <returns></returns>
-        public Result ExecuteCommandAsync(string command)
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    r.Value = ExecuteCommand(command);
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
+        
         /// <summary>
         /// Say something on the server. Executed "sv_say" behind the scenes
         /// </summary>
         /// <param name="text">The text to say</param>
         public void Say(string text)
         {
+            throw new NotImplementedException();
             Console.WriteLine("said " + text);
             ExecuteCommand("sv_say " + text);
         }
-        /// <summary>
-        /// Async version of SayAsync.
-        /// Say something on the server. Executed "sv_say" behind the scenes
-        /// </summary>
-        /// <param name="text">The text to say</param>
-        public Result SayAsync(string text)
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    Say(text);
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
-
+        
         /// <summary>
         /// Tests the ip/port/password are correct by sending a sv_port command
         /// </summary>
@@ -301,103 +251,31 @@ namespace Org.JZhao.Crysis.ServerToolkit
                 return false;
             }
         }
-        /// <summary>
-        /// Async version of TestConnection.
-        /// Tests the ip/port/password are correct by sending a sv_port command
-        /// </summary>
-        /// <returns>True if the connection is valid, false otherwise</returns>
-        public Result TestConnectionAsync()
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    r.Value = TestConnection();
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
+        
 
         #region Kick and Bans
         /// <summary>
-        /// Kicks player using their ID
+        /// Kicks player using their Name 
         /// </summary>
         /// <param name="player">The player to kick</param>
         public void Kick(Player player)
         {
             if (player == null)
                 throw new ArgumentException("player is null");
-            ExecuteCommand("kickid " + player.ID);
+            ExecuteCommand("kick " + player.Name);
         }
+        
         /// <summary>
-        /// Async version of Kick.
-        /// Kicks player using their ID
-        /// </summary>
-        /// <param name="player">The player to kick</param>
-        public Result KickAsync(Player player)
-        {
-            Result result = new Result();
-            ThreadStart starter = delegate
-            {
-                result.Status = AsyncCallStatus.Running;
-                try
-                {
-                    Kick(player);
-                }
-                catch (Exception e)
-                {
-                    result.Status = AsyncCallStatus.Error;
-                    result.Value = e;
-                }
-                result.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return result;
-        }
-        /// <summary>
-        /// Bans player using their profile
+        /// Bans player using their name
         /// </summary>
         /// <param name="player">The player to ban</param>
         public void Ban(Player player)
         {
             if (player == null)
                 throw new ArgumentException("player is null");
-            ExecuteCommand("ban " + player.Profile);
+            ExecuteCommand("ban " + player.Name);
         }
-        /// <summary>
-        /// Async version of Ban.
-        /// Bans player using their profile
-        /// </summary>
-        /// <param name="player">The player to ban</param>
-        public Result BanAsync(Player p)
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    BanAsync(p);
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
+        
         #endregion
         /// <summary>
         /// Gets a list of players by sending a status command.
@@ -424,33 +302,7 @@ namespace Org.JZhao.Crysis.ServerToolkit
             }
             return playerList;
         }
-        /// <summary>
-        /// Async version of GetPlayers.
-        /// Gets a list of players by sending a status command.
-        /// If a player is still connecting, their state will be "PlayerConnectionState.Connecting";
-        /// Otherwise it will be "Crysis.PlayerConnectionState.Connected".
-        /// </summary>
-        /// <returns>A list of players on the server.</returns>
-        public Result GetPlayersAsync()
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    r.Value = GetPlayers();
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
+        
         /// <summary>
         /// Executed a status command
         /// </summary>
@@ -459,31 +311,7 @@ namespace Org.JZhao.Crysis.ServerToolkit
         {
             return ExecuteCommand("status");
         }
-        /// <summary>
-        /// Async version of Status.
-        /// Executed a status command
-        /// </summary>
-        /// <returns>The result of the status</returns>
-        public Result StatusAsync()
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    r.Value = Status();
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
+        
         /// <summary>
         /// Sets the damage amount of friendly fire. 
         /// </summary>
@@ -491,6 +319,7 @@ namespace Org.JZhao.Crysis.ServerToolkit
         /// 0.0 means no team damage. 1.0 means same damage as enemy fire</param>
         public void SetFriendlyFireRatio(double value)
         {
+            throw new NotImplementedException();
             ExecuteCommand("g_friendlyfireratio " + value.ToString());
         }
         /// <summary>
@@ -500,67 +329,18 @@ namespace Org.JZhao.Crysis.ServerToolkit
         /// 0.0 means no team damage. 1.0 means same damage as enemy fire</returns>
         public double GetFriendlyFireRatio()
         {
+            throw new NotImplementedException();
             string[] lines = CrysisServerUtils.BlockToLines(ExecuteCommand("g_friendlyfireratio"));
             return Double.Parse(CrysisServerUtils.DecomposeEqual(lines[0])[1].Trim());
         }
-        /// <summary>
-        /// Async version of SetFriendlyFireRatio.
-        /// Sets the damage amount of friendly fire. 
-        /// </summary>
-        /// <param name="value">The damage amount caused by friendly fire.
-        /// 0.0 means no team damage. 1.0 means same damage as enemy fire</param>
-        public Result SetFriendlyFireRatioAsync(double value)
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    SetFriendlyFireRatio(value);
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
-        /// <summary>
-        /// Async version of GetFriendlyFireRatio.
-        /// Gets the damage amount of friendly fire. 
-        /// </summary>
-        /// <returns>The damage amount caused by friendly fire.
-        /// 0.0 means no team damage. 1.0 means same damage as enemy fire</returns>
-        public Result GetFriendlyFireRatioAsync()
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    r.Value = GetFriendlyFireRatio();
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
+        
         /// <summary>
         /// Sets the number of team kills a user will be banned for.
         /// </summary>
         /// <param name="value">Number of team kills a user will be banned for.</param>
         public void SetTKPunishLimit(int value)
         {
+            throw new NotImplementedException();
             ExecuteCommand("g_tk_punish_limit " + value);
         }
         /// <summary>
@@ -569,65 +349,18 @@ namespace Org.JZhao.Crysis.ServerToolkit
         /// <returns>Number of team kills a user will be banned for.</returns>
         public int GetTKPunishLimit()
         {
+            throw new NotImplementedException();
             string[] lines = CrysisServerUtils.BlockToLines(ExecuteCommand("g_tk_punish_limit"));
             return int.Parse(CrysisServerUtils.DecomposeEqual(lines[0])[1].Trim());
         }
-        /// <summary>
-        /// Async version of SetTKPunishLimit.
-        /// Sets the number of team kills a user will be banned for.
-        /// </summary>
-        /// <param name="value">Number of team kills a user will be banned for.</param>
-        public Result SetTKPunishLimitAsync(int value)
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    SetTKPunishLimit(value);
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
-        /// <summary>
-        /// Async version of GetTKPunishLimit.
-        /// Gets the number of team kills a user will be banned for.
-        /// </summary>
-        /// <returns>Number of team kills a user will be banned for.</returns>
-        public Result GetTKPunishLimitAsync()
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    r.Value = GetTKPunishLimit();
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
+        
         /// <summary>
         /// Gets if team kill punishment is allowed.
         /// </summary>
         /// <returns>If team kill punishment is allowed.</returns>
         public bool GetTKPunish()
         {
+            throw new NotImplementedException();
             string[] lines = CrysisServerUtils.BlockToLines(ExecuteCommand("g_tk_punish"));
             return CrysisServerUtils.DecomposeEqual(lines[0])[1].Trim().Equals("1") ? true : false;
         }
@@ -637,111 +370,25 @@ namespace Org.JZhao.Crysis.ServerToolkit
         /// <param name="value">If team kill punishment is allowed.</param>
         public void SetTKPunish(bool value)
         {
+            throw new NotImplementedException();
             ExecuteCommand("g_tk_punish " + (value ? 1 : 0).ToString());
         }
-        /// <summary>
-        /// Asynv version of GetTKPunish
-        /// Gets if team kill punishment is allowed.
-        /// </summary>
-        /// <returns>If team kill punishment is allowed.</returns>
-        public Result GetTKPunishAsync()
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    r.Value = GetTKPunish();
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
-        /// <summary>
-        /// Async version of SetTKPunish.
-        /// Sets if team kill punishment is allowed.
-        /// </summary>
-        /// <param name="value">If team kill punishment is allowed.</param>
-        public Result SetTKPunishAsync(bool value)
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    SetTKPunish(value);
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
-
+        
         public int GetTeamBalanceValue()
         {
+            throw new NotImplementedException();
             string[] lines = CrysisServerUtils.BlockToLines(ExecuteCommand("g_teamlock"));
             return int.Parse(CrysisServerUtils.DecomposeEqual(lines[0])[1].Trim());
         }
         public void SetTeamBalanceValue(int value)
         {
+            throw new NotImplementedException();
             ExecuteCommand("g_teamlock " + value);
         }
-        public Result GetTeamBalanceValueAsync()
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    r.Value = GetTeamBalanceValue();
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
-        public Result SetTeamBalanceValueAsync(int value)
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    SetTeamBalanceValue(value);
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
-
+        
         public string GetCurrentMap()
         {
+            throw new NotImplementedException();
             string[] lines = CrysisServerUtils.BlockToLines(ExecuteCommand("sv_map"));
             if (lines.Length == 2)
             {
@@ -759,98 +406,23 @@ namespace Org.JZhao.Crysis.ServerToolkit
         }
         public void SetCurrentMap(string value)
         {
+            throw new NotImplementedException();
             ExecuteCommand("map " + value);
         }
-        public Result GetCurrentMapAsync()
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    r.Value = GetCurrentMap();
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
-        public Result SetCurrentMapAsync(string value)
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    SetCurrentMap(value);
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
+        
 
         public void SetServerName(string value)
         {
+            throw new NotImplementedException();
             ExecuteCommand("sv_servername " + value);
         }
         public string GetServerName()
         {
+            throw new NotImplementedException();
             string[] lines = CrysisServerUtils.BlockToLines(ExecuteCommand("sv_servername"));
             return CrysisServerUtils.DecomposeEqual(lines[0])[1].Trim();
         }
-        public Result SetServerNameAsync(string value)
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    SetServerName(value);
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
-        public Result GetServerNameAsync()
-        {
-            Result r = new Result();
-            ThreadStart starter = delegate
-            {
-                r.Status = AsyncCallStatus.Running;
-                try
-                {
-                    r.Value = GetServerName();
-                }
-                catch (Exception e)
-                {
-                    r.Status = AsyncCallStatus.Error;
-                    r.Value = e;
-                }
-                r.Status = AsyncCallStatus.Done;
-            };
-            new Thread(starter).Start();
-            return r;
-        }
+        
         #endregion
     }
     #region Supporting Classes

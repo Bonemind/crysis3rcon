@@ -79,7 +79,6 @@ namespace Crysis3Rcon
             {
                 console.Text = "Connected to " + ipAdress.Text;
                 timer.Start();
-                css.CacheConnection = true;
                 repopulatePlayerBox();
             }
         }
