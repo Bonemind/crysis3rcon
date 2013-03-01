@@ -251,6 +251,44 @@ namespace Org.JZhao.Crysis.ServerToolkit
                 return false;
             }
         }
+
+        /// <summary>
+        /// Tries to set a setting and it's value on the server
+        /// </summary>
+        /// <param name="settingName">The name of the setting to be changed</param>
+        /// <param name="settingValue">The value of the setting to be changed</param>
+        /// <returns>True if the setting was set, or false if the server failed to set it</returns>
+        public bool setServerSetting(string settingName, string settingValue)
+        {
+            string reply = "";
+            reply = ExecuteCommand(settingName + " " + settingValue);
+            reply = reply.Trim();
+            if (reply.ToLower().Contains(settingName.Trim().ToLower() + " = " + settingValue.Trim().ToLower()))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Sends a serversetting to the server, parses the response and returns it's value
+        /// </summary>
+        /// <param name="settingName">The name of the setting to be queried</param>
+        /// <returns>The value the server returned, or an empty string if none was returned</returns>
+        public string getServerSetting(string settingName)
+        {
+            string reply = "";
+            reply = ExecuteCommand(settingName);
+            if (reply.ToLower().Contains(settingName.Trim().ToLower() + " = "))
+            {
+                string[] split = reply.Split('=');
+                if (split.Length == 2)
+                {
+                    return split[1].Trim();
+                }
+            }
+            return "";
+        }
         
 
         #region Kick and Bans

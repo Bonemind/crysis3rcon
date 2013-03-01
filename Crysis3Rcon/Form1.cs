@@ -17,6 +17,7 @@ namespace Crysis3Rcon
     {
         CrysisServerSession css;
         System.Timers.Timer timer;
+        List<TextBox> settingsList = new List<TextBox>();
 
         /// <summary>
         /// Form 1 constructor, creates the timer for the refreshing of the server status
@@ -140,7 +141,8 @@ namespace Crysis3Rcon
             if (css != null)
             {
                 Player kickPlayer = (Player)playerBox.SelectedItem;
-                css.ExecuteCommand("kick " + kickPlayer.Name);
+                css.Kick(kickPlayer);
+                repopulatePlayerBox();
             }
         }
 
@@ -156,7 +158,8 @@ namespace Crysis3Rcon
             if (css != null)
             {
                 Player banPlayer = (Player)playerBox.SelectedItem;
-                css.ExecuteCommand("ban " + banPlayer.Name);
+                css.Ban(banPlayer);
+                repopulatePlayerBox();
             }
         }
 
@@ -171,7 +174,11 @@ namespace Crysis3Rcon
             ipAdress.Text = Properties.Settings.Default.Server;
             portNum.Text = Properties.Settings.Default.Port;
             passWord.Text = Properties.Settings.Default.Password;
-           
+            autorefreshTime.Text = Properties.Settings.Default.Refreshtime;
+            foreach (TextBox currbox in settingsTab.Controls.OfType<TextBox>())
+            {
+                settingsList.Add(currbox);
+            }
         }
 
         /// <summary>
@@ -184,7 +191,50 @@ namespace Crysis3Rcon
             Properties.Settings.Default.Server = ipAdress.Text;
             Properties.Settings.Default.Port = portNum.Text;
             Properties.Settings.Default.Password = passWord.Text;
+            Properties.Settings.Default.Refreshtime = autorefreshTime.Text;
             Properties.Settings.Default.Save();
+        }
+
+        /// <summary>
+        /// Updates the interval in which the playerlist is refreshed
+        /// </summary>
+        public void updateRefreshTime()
+        {
+            int refreshTime;
+            if (css == null)
+            {
+                return;
+            }
+            if (!int.TryParse(autorefreshTime.Text.Trim(), out refreshTime))
+            {
+                MessageBox.Show("Please enter the refreshtime in seconds, as a number", "Refresh time inconrrect", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            else
+            {
+                timer.Stop();
+                timer.Interval = refreshTime * 1000;
+                timer.Start();
+            }
+        }
+
+        /// <summary>
+        /// Handles clicking of the apply refresh button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button4_Click(object sender, EventArgs e)
+        {
+            updateRefreshTime();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            foreach (TextBox currBox in settingsList)
+            {
+                currBox.Text = css.getServerSetting(currBox.Name);
+                settingsTab.Update();
+            }
         }
     }
 }

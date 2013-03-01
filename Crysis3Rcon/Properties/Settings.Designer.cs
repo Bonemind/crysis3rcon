@@ -58,5 +58,17 @@ namespace Crysis3Rcon.Properties {
                 this["Password"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3000")]
+        public string Refreshtime {
+            get {
+                return ((string)(this["Refreshtime"]));
+            }
+            set {
+                this["Refreshtime"] = value;
+            }
+        }
     }
 }
